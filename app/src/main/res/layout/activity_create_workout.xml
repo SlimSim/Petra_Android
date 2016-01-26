@@ -1,0 +1,86 @@
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context="com.slimsimapps.petra.CreateWorkoutActivity">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_workoutList"
+            android:gravity="top"
+            android:hint="@string/edit_workoutList"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_workoutName"
+            android:hint="@string/edit_workoutName"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_createWorkoutAs"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clipChildren="false">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_sendNewDoubleWorkout"
+                android:background="@color/button"
+                android:layout_margin="@dimen/buttonMargin"
+                android:layout_weight="1"
+                android:onClick="sendNewDoubleWorkout"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_sendNewSingleWorkout"
+                android:background="@color/button"
+                android:layout_margin="@dimen/buttonMargin"
+                android:layout_weight="1"
+                android:onClick="sendNewSingleWorkout"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_sendNewStretchWorkout"
+                android:background="@color/button"
+                android:layout_margin="@dimen/buttonMargin"
+                android:layout_weight="1"
+                android:onClick="sendNewStretchWorkout"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/workoutPadding"
+            android:layout_marginTop="@dimen/textMargin"
+            android:text="@string/text_explainingDoubleWorkout" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/workoutPadding"
+            android:layout_marginTop="@dimen/textMargin"
+            android:text="@string/text_explainingSingleWorkout" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/workoutPadding"
+            android:layout_marginTop="@dimen/textMargin"
+            android:text="@string/text_explainingStretchWorkout" />
+
+    </LinearLayout>
+
+</ScrollView>

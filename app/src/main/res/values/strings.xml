@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Petra</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- MainActivity: -->
+    <string name="headline">Welcome to Petra!</string>
+    <string name="stopWorkout">Stop Workout</string>
+
+    <string name="strWorkoutTimeLeft">Workout time left:</string>
+    <string name="strExerciseTimeLeft">Exercise time left:</string>
+    <string name="iExerciseTimeLeft">Not long!</string>
+    <string name="iWorkoutTimeLeft">Just right</string>
+    <string name="currentExercise">You can do it!</string>
+    <string name="currentWorkout">Great work!</string>
+    <string name="text_infoToRemoveWorkout">Long press a workout to remove it.</string>
+    <string name="text_infoChromeWebStorePetra">
+        Petra is also avaiable for your computer! Get it at
+        chrome.google.com/webstore/detail/petra-personal-trainer/aogbkamehhcpfnmmjkcmpfadhdkekelf
+    </string>
+
+    <!-- Create new workout: -->
+    <string name="title_activity_create_workout">Create new Workout</string>
+
+    <string name="edit_workoutList">Comma separated list of exercises\n\n</string>
+    <string name="edit_workoutName">Name of workout</string>
+    <string name="text_createWorkoutAs">Create Workout as:</string>
+    <string name="button_gotoCreateWorkout">Create new workout</string>
+    <string name="button_sendNewDoubleWorkout">Double Workout</string>
+    <string name="button_sendNewSingleWorkout">Single Workout</string>
+    <string name="button_sendNewStretchWorkout">Stretch Workout</string>
+
+    <string name="text_explainingDoubleWorkout"><b>Double workout is:</b>\nA(45s) B(45s) A(30s) B(30s) Rest(15s) and then the next pair of exercises</string>
+    <string name="text_explainingSingleWorkout"><b>Single workout is:</b>\nA(30s) Rest(10s) and then the next exercise</string>
+    <string name="text_explainingStretchWorkout"><b>Stretch workout is:</b>\nA(24s) and then the next exercise</string>
+
+
+    <!-- DB: -->
+    <!-- note: this is not displayed for users, but should still exist: -->
+    <string name="DB_Saved_Workout">db_saved_workout</string>
+
+
+</resources>

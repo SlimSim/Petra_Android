@@ -1,0 +1,15 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">8dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="workoutMargin">6dp</dimen>
+    <dimen name="workoutPadding">6dp</dimen>
+    <dimen name="textMargin">3dp</dimen>
+    <dimen name="textPadding">3dp</dimen>
+
+    <dimen name="workoutElivation">2dp</dimen>
+    <dimen name="workoutNameMargin">6dp</dimen>
+    <dimen name="buttonMargin">6dp</dimen>
+    <dimen name="workoutName">16sp</dimen>
+</resources>

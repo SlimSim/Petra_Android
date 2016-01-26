@@ -1,0 +1,158 @@
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".MainActivity" >
+
+        <!-- headline -->
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/headline"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp" />
+
+        <!-- currentWorkout -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/currentWorkout"
+            android:id="@+id/currWorkout"
+            android:layout_below="@+id/textView1"
+            android:layout_centerHorizontal="true" />
+
+        <!-- Workout time left -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="22dp"
+            android:id="@+id/linearLayout4"
+            android:layout_below="@+id/currWorkout"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/strWorkoutTimeLeft"
+                android:id="@+id/textView2"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/iWorkoutTimeLeft"
+                android:id="@+id/iWorkoutTimeLeft"
+                android:layout_gravity="start"/>
+        </LinearLayout>
+
+        <!-- exercise time left -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:orientation="vertical"
+            android:layout_alignTop="@+id/linearLayout4"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/linearLayout5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/strExerciseTimeLeft"
+                android:id="@+id/textView3" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/iExerciseTimeLeft"
+                android:id="@+id/iExerciseTimeLeft"
+                android:layout_gravity="end"/>
+        </LinearLayout>
+
+        <!-- current exercise -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/currentExercise"
+            android:id="@+id/currExercise"
+            android:layout_marginTop="22dp"
+            android:layout_below="@+id/linearLayout4"
+            android:layout_centerHorizontal="true" />
+
+        <!-- The workout list -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linearLayout_WorkoutList"
+            android:layout_below="@+id/currExercise"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="22dp"/>
+
+        <Button
+            android:id="@+id/button_StopWorkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/workoutPadding"
+            android:layout_marginTop="@dimen/workoutNameMargin"
+            android:background="@color/button"
+            android:onClick="stopExercise"
+            android:text="@string/stopWorkout"
+            android:layout_below="@+id/linearLayout_WorkoutList"
+            android:layout_centerHorizontal="true"
+            android:elevation="@dimen/workoutElivation"/>
+
+        <Button
+            android:id="@+id/button_gotoCreateWorkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/workoutPadding"
+            android:layout_marginTop="@dimen/workoutNameMargin"
+            android:background="@color/button"
+            android:onClick="gotoCreateWorkout"
+            android:text="@string/button_gotoCreateWorkout"
+            android:layout_below="@+id/button_StopWorkout"
+            android:layout_centerHorizontal="true"
+            android:elevation="@dimen/workoutElivation"/>
+
+        <TextView
+            android:id="@+id/infoRemoveWorkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/workoutPadding"
+            android:layout_marginTop="@dimen/workoutNameMargin"
+            android:layout_below="@+id/button_gotoCreateWorkout"
+            android:layout_centerHorizontal="true"
+            android:text="@string/text_infoToRemoveWorkout"/>
+        <TextView
+            android:autoLink="web"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/textPadding"
+            android:layout_marginTop="@dimen/workoutNameMargin"
+            android:layout_below="@+id/infoRemoveWorkout"
+            android:layout_centerHorizontal="true"
+            android:text="@string/text_infoChromeWebStorePetra"/>
+    </RelativeLayout>
+</ScrollView>

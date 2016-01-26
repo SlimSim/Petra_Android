@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="red">#ffff0000</color>
+
+    <color name="background">#FFC700</color>
+    <color name="button">#D2CC79</color>
+    <color name="input">#FFFBC6</color>
+    <color name="tabataWorkout">#ff73ff58</color>
+    <color name="doubleWorkout">#FFE27C</color>
+    <color name="singleWorkout">#FFED36</color>
+    <color name="stretchWorkout">#FCFD8D</color>
+    <color name="workoutName">#000</color>
+</resources>
