@@ -50,18 +50,14 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         readFromDB();
     }
 
-
-    //this is TTS-specific
     @Override
-    public void onPause(){
+    protected void onDestroy() {
+        super.onDestroy();
         if(ttobj != null){
-            Log.d(TAG, "Don't forget to shutdown tts! -- men varför blir det fel när jag gör det?");
-            Log.d(TAG, "och varför ska man stänga av tts, drar den batterier???");
-            Log.d(TAG, "Vill jag också att den ska fortsätta tjattra i bakgrunden?");
+            oWorkout.endWorkout(/*silent=*/true);
         }
-
-        super.onPause();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
