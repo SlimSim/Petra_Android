@@ -1,6 +1,14 @@
+*.iml
 .gradle
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
 /build
+/captures
+.externalNativeBuild
+.idea/encodings.xml
+stretchMusic1.mp3
+workoutMusic1.mp3
+app/src/main/res/raw/workoutMusic1.mp3
+app/src/main/res/raw/stretchMusic1.mp3

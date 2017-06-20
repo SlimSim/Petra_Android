@@ -108,7 +108,62 @@
             android:id="@+id/linearLayout_WorkoutList"
             android:layout_below="@+id/currExercise"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="22dp"/>
+            android:layout_marginTop="22dp">
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/musicToggleParent"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/linearLayout_WorkoutList"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ToggleButton
+                android:id="@+id/ToggleButton_stretchMusic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:layout_marginTop="@dimen/workoutNameMargin"
+                android:background="@color/stretchWorkout"
+                android:onClick="playStretchMusic"
+                android:textOn="@string/stop_stretch_music"
+                android:textOff="@string/play_stretch_music"
+                android:elevation="@dimen/workoutElivation"/>
+
+
+            <SeekBar
+                android:id="@+id/Slider_musicVolume"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:max="11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="@string/music"
+                    android:padding="6dp"
+                    android:layout_height="wrap_content" />
+                <ToggleButton
+                    android:id="@+id/musicToggle"
+                    android:background="@color/button"
+                    android:padding="@dimen/workoutPadding"
+                    android:onClick="saveMusicToggleState"
+                    android:layout_marginTop="@dimen/workoutNameMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="@dimen/workoutElivation" />
+            </LinearLayout>
+        </LinearLayout>
 
         <Button
             android:id="@+id/button_StopWorkout"
@@ -119,7 +174,7 @@
             android:background="@color/button"
             android:onClick="stopExercise"
             android:text="@string/stopWorkout"
-            android:layout_below="@+id/linearLayout_WorkoutList"
+            android:layout_below="@+id/musicToggleParent"
             android:layout_centerHorizontal="true"
             android:elevation="@dimen/workoutElivation"/>
 

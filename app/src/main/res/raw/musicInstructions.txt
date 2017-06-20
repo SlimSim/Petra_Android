@@ -1,0 +1,10 @@
+this file is needed to make git push this folder.
+
+the app also expects the following files in this folder:
+stretchmusic1.mp3
+workoutmusic1.mp3
+
+which can be found at drive:
+https://drive.google.com/drive/folders/0B2AV8VRk9HUebUpSRk0tREN1bHM
+
+good luck!

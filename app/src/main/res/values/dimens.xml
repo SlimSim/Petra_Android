@@ -5,6 +5,7 @@
 
     <dimen name="workoutMargin">6dp</dimen>
     <dimen name="workoutPadding">6dp</dimen>
+    <dimen name="workoutWidthMax">20dp</dimen>
     <dimen name="textMargin">3dp</dimen>
     <dimen name="textPadding">3dp</dimen>
 

@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -22,15 +23,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class MainActivity extends Activity implements TextToSpeech.OnInitListener {
 
     private final String TAG = "MainActivity";
     Workout oWorkout;
     TextToSpeech ttobj;
+
+    private MediaPlayer mediaPlayer;
+    private int maxMusicVolume = 12;
+    private int currentMusicVolume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,53 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
                     }
                 });
         readFromDB();
+
+        ((SeekBar) findViewById( R.id.Slider_musicVolume )).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                // TODO Auto-generated method stub
+
+                dbSave( getString( R.string.DB_Music_Volume ), progress);
+
+                setMusicVolume(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+
+
+    }
+
+    private void dbSave(String key, int val) {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt( key, val);
+        editor.apply();
+    }
+
+    private void dbSave(String key, String val) {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString( key, val);
+        editor.apply();
+    }
+
+    private void dbSave(String key, boolean val) {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean( key, val);
+        editor.apply();
     }
 
     @Override
@@ -56,6 +111,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         if(ttobj != null){
             oWorkout.endWorkout(/*silent=*/true);
         }
+        stopMusic();
     }
 
     @Override
@@ -89,17 +145,45 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
     public void readFromDB(){
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         Map<String, ?> prefs = sharedPref.getAll();
+        boolean reloadPrefs = false;
         if(prefs.size() == 0){
             // This is used the first time the user starts the app, to load the default exercises
             saveWorkout("666:Name_Ex_Splitter:2:Name_Ex_Splitter:Quick Double Workout:Name_Ex_Splitter:The Plank, Leg raises, Lunges, Back extensions, Jumping jacks, Burpees");
             saveWorkout("668:Name_Ex_Splitter:2:Name_Ex_Splitter:Basic Double Workout:Name_Ex_Splitter:Crunches, Back extensions, Wall sit, Dive bombers, Side crunches, Bear crawls, Jump squats, Push-ups");
             saveWorkout("670:Name_Ex_Splitter:1:Name_Ex_Splitter:7 Min Workout:Name_Ex_Splitter:Jumping jacks, Wall sit, Push-up, Abdominal crunch, Step-up onto chair, Squats, Triceps dip on chair, The plank, High knees running, Lunges, Push-up and rotation, Side plank");
             saveWorkout("672:Name_Ex_Splitter:0:Name_Ex_Splitter:Basic Stretch Routine:Name_Ex_Splitter:Right hamstring, Left hamstring, Butterfly groin, Right laying hip, Left laying hip, Right quad, Left quad, Right calf, Left calf, Right shoulder, Left shoulder, Right triceps, Left triceps");
+            reloadPrefs = true;
+        }
+        if( !prefs.containsKey(getString(R.string.DB_Saved_Workout) + "674" ) ) {
+            saveWorkout("674:Name_Ex_Splitter:2:Name_Ex_Splitter:Brutal Double Workout:Name_Ex_Splitter:Jump squats, Push ups, Lunges, Triceps dip on chair, Crunches to right, Crunches to left, Back extensions to right, Back extensions to left, Leg raises, Back extensions");
+            reloadPrefs = true;
+        }
+        if( !prefs.containsKey(getString(R.string.DB_Saved_Workout) + "676" ) ) {
+            saveWorkout("676:Name_Ex_Splitter:2:Name_Ex_Splitter:Core Workout:Name_Ex_Splitter:Crunches, Bicycle, Back extensions, Superman, Right side plank, Left side plank, Back extensions to right, Back extensions to left, The plank, The boat");
+            reloadPrefs = true;
+        }
+        if( !prefs.containsKey(getString(R.string.DB_Saved_Workout) + "678" ) ) {
+            saveWorkout("678:Name_Ex_Splitter:2:Name_Ex_Splitter:Leg Workout:Name_Ex_Splitter:Right leg squat, Left leg squat, Toe raises on right foot, Toe raises on left foot, Lunges, Jump squats");
+            reloadPrefs = true;
+        }
+        if( reloadPrefs ) {
             prefs = sharedPref.getAll();
         }
         for (String key : prefs.keySet()) {
+
+            if( key.equals( getString(R.string.DB_Music_Toggle_State ) ) ) {
+                ((ToggleButton) findViewById( R.id.musicToggle ) ).setChecked(
+                    (Boolean) prefs.get( getString(R.string.DB_Music_Toggle_State) )
+                );
+                continue;
+            } else if( key.equals( getString(R.string.DB_Music_Volume ) ) ) {
+                int vol = (Integer) prefs.get( getString(R.string.DB_Music_Volume ) );
+                ((SeekBar) findViewById( R.id.Slider_musicVolume )).setProgress( vol );
+                setMusicVolume( vol );
+                continue;
+            }
+
             String sWorkoutInfo = (String) prefs.get(key);
-            //Log.i(TAG, key + " : " +  sWorkoutInfo);
 
             addWorkoutToXML(sWorkoutInfo);
         }
@@ -129,11 +213,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         String sUniqueTime = sWorkoutInfo.split(":Name_Ex_Splitter:")[0];
         String sIdentifier = getString(R.string.DB_Saved_Workout) + sUniqueTime;
 
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(sIdentifier, sWorkoutInfo);
-
-        editor.apply();
+        dbSave( sIdentifier, sWorkoutInfo);
     }
 
     public void removeWorkout(String sWorkoutInfo) {
@@ -251,7 +331,11 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         });
     }
 
-    public void stopExercise(View view){
+    public void stopExercise(View view) {
+        stopMusic();
+
+        ((ToggleButton) findViewById( R.id.ToggleButton_stretchMusic )).setChecked( false );
+
         if(oWorkout == null){
             resetTextfields();
             return;
@@ -304,9 +388,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
     }
 
     private String getWorkoutType(String sWorkoutInfo){
-        String[] asWorkoutInfo = sWorkoutInfo.split(":Name_Ex_Splitter:");
-        int iWorkoutType = Integer.parseInt(asWorkoutInfo[1]);
-        switch (iWorkoutType) { //sWorkoutType
+        switch ( getWorkoutTypeInt( sWorkoutInfo ) ) { //sWorkoutType
             case G.WORKOUT_STRETCH: return "Stretch";
             case 1: return "Single";
             case 2: return "Double";
@@ -314,6 +396,11 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         }
         Log.e(TAG, "returning Unknown workout type");
         return "Unknown"; //this should not happen....
+    }
+
+    private int getWorkoutTypeInt( String sWorkoutInfo ) {
+        String[] asWorkoutInfo = sWorkoutInfo.split(":Name_Ex_Splitter:");
+        return Integer.parseInt(asWorkoutInfo[1]);
     }
 
     private String getWorkoutName(String sWorkoutInfo){
@@ -416,7 +503,38 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         return ret;
     }
 
+    private void stopMusic() {
+        if( mediaPlayer != null ) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
+    private void startMusic( int musicFile ) {
+        stopMusic();
+
+        mediaPlayer = MediaPlayer.create(this, musicFile);
+        setMusicVolume( currentMusicVolume );
+        mediaPlayer.start();
+    }
+
+
     public void doWorkout(String sWorkoutInfo){
+
+        ToggleButton musicToggle = (ToggleButton) findViewById( R.id.musicToggle );
+
+        stopMusic();
+        ((ToggleButton) findViewById( R.id.ToggleButton_stretchMusic )).setChecked( false );
+
+        if( musicToggle.isChecked() ) {
+            int musicFile = R.raw.workoutmusic1;
+            if (getWorkoutTypeInt(sWorkoutInfo) == G.WORKOUT_STRETCH) {
+                musicFile = R.raw.stretchmusic1;
+            }
+            startMusic( musicFile );
+        }
+
         Exercise[] aExercise = getWorkoutExerciseList(sWorkoutInfo);
         String sWorkoutName = getWorkoutName(sWorkoutInfo);
 
@@ -445,4 +563,24 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 
     } // end doWorkout
 
+    public void playStretchMusic( View view ) {
+        ToggleButton button = (ToggleButton) view;
+        if( button.isChecked() ) {
+            startMusic( R.raw.stretchmusic1 );
+        } else {
+            stopMusic();
+        }
+    }
+
+    public void saveMusicToggleState( View view ) {
+        dbSave(getString(R.string.DB_Music_Toggle_State), ((ToggleButton) view).isChecked());
+    }
+
+    public void setMusicVolume( int volume ) {
+        currentMusicVolume = volume;
+        if( mediaPlayer != null ) {
+            float log1 = (float) (Math.log(maxMusicVolume - volume) / Math.log(maxMusicVolume));
+            mediaPlayer.setVolume(1 - log1, 1 - log1);
+        }
+    }
 } // end MainActivity Class
