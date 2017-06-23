@@ -89,8 +89,10 @@ class Workout extends TimerTask {
             String mess = "Workout stopped";
             ttobj.speak(mess, TextToSpeech.QUEUE_FLUSH, null);
             parentActivity.showToast(mess);
+        } else {
+			parentActivity.fadeOutMusic();
         }
-        isRunning = false;
+	    isRunning = false;
         this.cancel();
     }
 

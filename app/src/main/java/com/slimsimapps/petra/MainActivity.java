@@ -3,6 +3,9 @@ package com.slimsimapps.petra;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -36,9 +39,15 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
     Workout oWorkout;
     TextToSpeech ttobj;
 
+	// TODO: move the music to the workout - java-file
+	// then the musicFadeoutSchedule, media player, volume can be
+	// there, music volume and more... :)
+
     private MediaPlayer mediaPlayer;
     private int maxMusicVolume = 12;
     private int currentMusicVolume;
+	private ScheduledExecutorService musicFadeoutSchedule;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +66,8 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
                 });
         readFromDB();
 
-        ((SeekBar) findViewById( R.id.Slider_musicVolume )).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+        ((SeekBar) findViewById( R.id.Slider_musicVolume ))
+		        .setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
@@ -66,7 +76,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 
                 dbSave( getString( R.string.DB_Music_Volume ), progress);
 
-                setMusicVolume(progress);
+				setMusicVolume( progress );
             }
 
             @Override
@@ -509,6 +519,30 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
             mediaPlayer.release();
             mediaPlayer = null;
         }
+        if( musicFadeoutSchedule != null ) {
+	        musicFadeoutSchedule.shutdownNow();
+	        musicFadeoutSchedule = null;
+        }
+    }
+
+    public void fadeOutMusic() {
+	    int delay = 1000;
+	    int period = 1000;
+	    musicFadeoutSchedule = Executors.newScheduledThreadPool(1);
+	    musicFadeoutSchedule.scheduleWithFixedDelay(new Runnable() {
+		    @Override
+		    public void run() {
+			    setMusicVolume(currentMusicVolume - 1);
+			    if( currentMusicVolume <= 0 ) {
+				    stopMusic();
+				    int progress = ((SeekBar)
+						    findViewById( R.id.Slider_musicVolume ))
+						    .getProgress();
+				    setMusicVolume( progress );
+			    }
+		    }
+	    }, delay, period, TimeUnit.MILLISECONDS);
+
     }
 
     private void startMusic( int musicFile ) {
@@ -527,18 +561,19 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         stopMusic();
         ((ToggleButton) findViewById( R.id.ToggleButton_stretchMusic )).setChecked( false );
 
-        if( musicToggle.isChecked() ) {
-            int musicFile = R.raw.workoutmusic1;
-            if (getWorkoutTypeInt(sWorkoutInfo) == G.WORKOUT_STRETCH) {
-                musicFile = R.raw.stretchmusic1;
-            }
-            startMusic( musicFile );
-        }
-
         Exercise[] aExercise = getWorkoutExerciseList(sWorkoutInfo);
         String sWorkoutName = getWorkoutName(sWorkoutInfo);
 
         if(aExercise.length == 0) return;
+
+	    if( musicToggle.isChecked() ) {
+		    int musicFile = R.raw.workoutmusic1;
+		    if (getWorkoutTypeInt(sWorkoutInfo) == G.WORKOUT_STRETCH) {
+			    musicFile = R.raw.stretchmusic1;
+		    }
+		    startMusic( musicFile );
+	    }
+
 
         ((TextView)findViewById(R.id.currWorkout)).setText(sWorkoutName);
         ((TextView)findViewById(R.id.currExercise)).setText(aExercise[0].getName());
